@@ -1,0 +1,50 @@
+service: notiplat-gateway
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: go1.x
+
+  stage: alpha
+  region: ap-northeast-2
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:DeleteMessage"
+        - "sqs:GetQueueAttributes"
+        - "sqs:ReceiveMessage"
+      Resource: "arn:aws:sqs:*"
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+        - "ses:SendRawEmail"
+        - "ses:SendTemplatedEmail"
+        - "ses:SendCustomVerificationEmail"
+      Resource: "arn:aws:ses:*"
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: "arn:aws:lambda:ap-northeast-2:*:function:*"
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+      Resource: "arn:aws:logs:ap-northeast-2:*:*"
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "arn:aws:logs:ap-northeast-2:*:log-group:/aws/lambda/*:*"
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  email:
+    handler: bin/email-gw
+    events:
+      - sqs: ${ssm:/finfech/notiplat/emailgw/alpha/arn}
