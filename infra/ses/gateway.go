@@ -25,8 +25,7 @@ const charSet = "UTF-8"
 func (gw *sesEmailGW) Send(payload email.Payload) error {
 	input := makeSESEmailInput(payload)
 
-	_, err := gw.ses.SendEmail(input)
-	if err != nil {
+	if _, err := gw.ses.SendEmail(input); err != nil {
 		return err
 	}
 

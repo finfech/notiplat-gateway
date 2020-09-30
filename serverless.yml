@@ -25,6 +25,10 @@ provider:
       Resource: "arn:aws:ses:*"
     - Effect: "Allow"
       Action:
+        - "sns:Publish"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
         - "lambda:InvokeFunction"
       Resource: "arn:aws:lambda:ap-northeast-2:*:function:*"
     - Effect: "Allow"
@@ -48,3 +52,13 @@ functions:
     handler: bin/email-gw
     events:
       - sqs: ${ssm:/finfech/notiplat/emailgw/alpha/arn}
+  sms:
+    handler: bin/sms-gw
+    events:
+      - sqs: ${ssm:/finfech/notiplat/smsgw/alpha/arn}
+  smsme:
+    handler: bin/smsme-gw
+    environment:
+      IFTTT_KEY: ${ssm:/finfech/notiplat/smsmegw/alpha/ifttt_key~true}
+    events:
+      - sqs: ${ssm:/finfech/notiplat/smsmegw/alpha/queue_arn}
