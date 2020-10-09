@@ -51,11 +51,11 @@ functions:
   email:
     handler: bin/email-gw
     events:
-      - sqs: ${ssm:/finfech/alpha/notiplat/emailgw/arn}
+      - sqs: ${ssm:/finfech/alpha/notiplat/emailgw/queue_arn}
   sms:
     handler: bin/sms-gw
     events:
-      - sqs: ${ssm:/finfech/alpha/notiplat/smsgw/arn}
+      - sqs: ${ssm:/finfech/alpha/notiplat/smsgw/queue_arn}
   smsme:
     handler: bin/smsme-gw
     environment:
