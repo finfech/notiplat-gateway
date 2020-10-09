@@ -51,14 +51,14 @@ functions:
   email:
     handler: bin/email-gw
     events:
-      - sqs: ${ssm:/finfech/notiplat/emailgw/alpha/arn}
+      - sqs: ${ssm:/finfech/alpha/notiplat/emailgw/arn}
   sms:
     handler: bin/sms-gw
     events:
-      - sqs: ${ssm:/finfech/notiplat/smsgw/alpha/arn}
+      - sqs: ${ssm:/finfech/alpha/notiplat/smsgw/arn}
   smsme:
     handler: bin/smsme-gw
     environment:
-      IFTTT_KEY: ${ssm:/finfech/notiplat/smsmegw/alpha/ifttt_key~true}
+      IFTTT_KEY: ${ssm:/finfech/alpha/notiplat/smsmegw/ifttt_key~true}
     events:
-      - sqs: ${ssm:/finfech/notiplat/smsmegw/alpha/queue_arn}
+      - sqs: ${ssm:/finfech/alpha/notiplat/smsmegw/queue_arn}
